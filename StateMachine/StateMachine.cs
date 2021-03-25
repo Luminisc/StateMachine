@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StateMachine
 {
-    public class StateMachine<TState> where TState : struct
+    public class StateMachine<TState>
     {
         private TState? _currentState;
         private readonly List<TState> _states;
@@ -21,6 +21,8 @@ namespace StateMachine
             _states = states;
             _transitions = transitions;
         }
+
+        // constructor with default value
 
         public StateMachine<TState> WithState(TState state)
         {

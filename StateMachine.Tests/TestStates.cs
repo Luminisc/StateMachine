@@ -2,23 +2,59 @@
 {
     internal readonly struct TestState
     {
-        public TestState(string stateName)
+        public static TestState Pending => new("Pending");
+        public static TestState Denied => new("Denied");
+        public static TestState Completed => new("Completed");
+
+        public string StateName { get; }
+
+        private TestState(string stateName)
         {
             StateName = stateName;
         }
 
-        public string StateName { get; }
+        public override bool Equals(object obj)
+        {
+            if (obj is TestState state)
+            {
+                return StateName == state.StateName;
+            }
 
-        public static TestState Pending => new("Pending");
-        public static TestState Denied => new("Denied");
-        public static TestState Completed => new("Completed");
+            return false;
+        }
     }
     
-    public enum TestEnum
+    internal enum TestEnum
     {
         Pending,
         Completed,
         Denied,
         Invalidated
+    }
+
+    internal interface IState
+    {
+        public TestEnum StateType { get; }
+    }
+
+    internal class PendingState : IState
+    {
+        public TestEnum StateType => TestEnum.Pending;
+
+        public override bool Equals(object? obj) => (obj is IState state) && state.StateType == StateType;
+    }
+
+    internal class DeniedState : IState
+    {
+        public TestEnum StateType => TestEnum.Denied;
+
+        public override bool Equals(object? obj) => (obj is IState state) && state.StateType == StateType;
+    }
+
+    internal class CompletedState : IState
+    {
+        public TestEnum StateType => TestEnum.Completed;
+
+        public override bool Equals(object? obj) => (obj is IState state) && state.StateType == StateType;
     }
 }
