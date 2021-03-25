@@ -28,6 +28,16 @@ namespace StateMachine
             return this;
         }
 
+        public StateMachine<TState> FromEnum()
+        {
+            if (!typeof(TState).IsEnum)
+            {
+                throw new InvalidOperationException("This type is not Enum");
+            }
+            _states.AddRange(Enum.GetValues(typeof(TState)).Cast<TState>());
+            return this;
+        }
+
         public StateMachine<TState> WithTransition(Transition<TState> transition)
         {
             _transitions.Add(transition);

@@ -1,15 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StateMachine.Tests
+﻿namespace StateMachine.Tests
 {
-    internal struct TestState
+    internal readonly struct TestState
     {
-    }
+        public TestState(string stateName)
+        {
+            StateName = stateName;
+        }
 
+        public string StateName { get; }
+
+        public static TestState Pending => new("Pending");
+        public static TestState Denied => new("Denied");
+        public static TestState Completed => new("Completed");
+    }
+    
     public enum TestEnum
     {
         Pending,
