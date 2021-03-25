@@ -22,7 +22,11 @@ namespace StateMachine
             _transitions = transitions;
         }
 
-        // constructor with default value
+        public StateMachine(TState start) : base()
+        {
+            WithState(start)
+                .SetState(start);
+        }
 
         public StateMachine<TState> WithState(TState state)
         {
@@ -58,7 +62,7 @@ namespace StateMachine
         {
             EnsureStateExists(state);
 
-            if (_transitions.Any(x=>x.From.Equals(_currentState) && x.To.Equals(state)))
+            if (_transitions.Any(x => x.From.Equals(_currentState) && x.To.Equals(state)))
             {
                 _currentState = state;
             }
